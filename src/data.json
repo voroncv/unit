@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "local_id": 1,
+      "type": "text",
+      "content": "Madison, Wisconsin State capital and city A view of the skyline of the Madison Isthmus and Lake Mendota from Picnic Point."
+    },
+    {
+      "local_id": 2,
+      "type": "text",
+      "content": "Madison, Wisconsin State."
+    },
+    {
+      "local_id": 3,
+      "type": "unit",
+      "title": "Three Hours With the Late Jim Harrison"
+    }
+  ]
+}

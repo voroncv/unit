@@ -6,6 +6,10 @@ import router from './router';
 
 Vue.config.productionTip = false;
 
+Array.prototype.insert = function ( index, item ) {
+  this.splice( index, 0, item );
+};
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
