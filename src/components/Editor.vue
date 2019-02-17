@@ -17,6 +17,7 @@
                 placeholder="Enter text"
                 :id="elem.local_id"
                 v-if="elem.type === 'text'"
+                @input="enterText(elemIndex, $event.target.innerText, elem.type)"
               >{{elem.content}}</div>
 
               <div
@@ -30,6 +31,7 @@
                   class="unit_content"
                   :id="elem.local_id"
                   @keydown.enter="addNewElement($event, elemIndex, elem.type)"
+                  @input="enterText(elemIndex, $event.target.innerText, elem.type)"
                 >{{elem.title}}</div>
               </div>
 
@@ -73,6 +75,25 @@ export default {
     }
   },
   methods: {
+    contentSaveHandler() {
+      const self = this
+      setInterval(() => {
+        const currentData = localStorage.getItem('data')
+        const content = JSON.stringify(self.content)
+        if (content !== currentData) {
+          localStorage.setItem('data', content)
+        }
+      }, 1000)
+    },
+    enterText(index, text, type) {
+      let newContent = this.content
+      if (type === 'text') {
+        newContent[index].content = text
+      } else if (type === 'unit') {
+        newContent[index].title = text
+      }
+      localStorage.setItem('data', JSON.stringify(newContent))
+    },
     getMaxLocalId() {
       const localIds = this.content.map((elem) => elem.local_id)
       return Math.max(...localIds)+1
@@ -92,17 +113,17 @@ export default {
     initData() {
       const isInit = localStorage.getItem('isInit')
       const actualData = localStorage.getItem('data')
-      if (!isInit && actualData) {
-        this.content = JSON.parse(actualData)
-      } else {
+      if (!isInit) {
         this.content = data
         localStorage.setItem('isInit', true)
-        localStorage.setItem('data', JSON.stringify(data))
+      } else {
+        this.content = JSON.parse(actualData)
       }
+      this.contentSaveHandler()
     }
   },
-  created() {
-    this.initData()
+  async created() {
+    await this.initData()
   }
 };
 </script>
